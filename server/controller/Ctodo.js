@@ -55,3 +55,16 @@ exports.updateTodo = async(req, res) => {
     }
 }
 // todo 삭제(delete)
+exports.deleteTodo = async(req, res) => {
+    try {
+        let isDeleted = await Todo.destoy({ where : {id : req.params.todoId}})
+        // 삭제 실패
+        if(!isDeleted) {
+            return res.send(false)
+        }
+        // 삭제 
+        res.send(true)
+    } catch (error) {
+        res.send(error)
+    }
+}

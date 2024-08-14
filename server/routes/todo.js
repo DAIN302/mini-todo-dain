@@ -11,4 +11,7 @@ router.post('/todo', controller.createTodo);
 // PATCH /api/todo/:todoId - edit a specific todo (UPDATE)
 router.patch('/todo/:todoId', controller.updateTodo);
 
+// DELETE /api/todo/:todoId - remove a specific todo (DELETE)
+router.delete('/todo/:todoId', controller.deleteTodo);
+
 module.exports = router;

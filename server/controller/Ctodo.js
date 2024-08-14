@@ -28,7 +28,7 @@ exports.createTodo = async(req, res) => {
 
 // todo 수정(update)
 exports.updateTodo = async(req, res) => {
-    console.log(req.body);
+    console.log(req.params.todoId);
     try {
         // 변수가 아니라 배열로 담은 이유? 배열 구조 분해 
         // update() - 업데이트 된 행(row)의 수를 나타내는 값을 반환 -> 반환값은 배열 형태로 제공됨
@@ -40,7 +40,7 @@ exports.updateTodo = async(req, res) => {
                 done : req.body.done // 요청 본문에서 done 값을 가져와서 업데이트
             },
             {
-                where : {[Op.eq] : req.params.todoId }, // 경로 파라미터에서 'todo' 아이디를 사용해서 특정 todo 항목을 찾으셈 
+                where : {id : req.params.todoId }, // 경로 파라미터에서 'todo' 아이디를 사용해서 특정 todo 항목을 찾으셈 
                 // Op.eq -> Sequelize 의 연산자, 'equels'(같음) 이라는 뜻
             }
         );

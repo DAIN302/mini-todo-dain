@@ -13,12 +13,12 @@ export default function AddTodo({addItem}) {
 
   return (
     <div className='AddTodo'>
-        <input type='text' placeholder='Add Your new Todo!' 
+        <input type='text' placeholder='Add Your new Todo!' className='add-input'
         onChange={(e) => setTodoItem({title : e.target.value})} 
         value={todoItem.title} 
         onKeyDown={(e)=>{if(e.key==='Enter'){onButtonClick()}}}
         />
-        <button onClick={onButtonClick}>ADD</button>
+        <button onClick={onButtonClick} className='add-button'>ADD</button>
     </div>
   )
 }

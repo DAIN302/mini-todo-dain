@@ -1,0 +1,17 @@
+@mixin goCenter {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@mixin flexCenter {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+@mixin fontStyle($family,$size,$weight) {
+    font-family: $family;
+    font-size : $size;
+    font-weight : $weight;
+}

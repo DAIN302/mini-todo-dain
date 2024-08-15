@@ -1,4 +1,7 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCircle } from "@fortawesome/free-regular-svg-icons";
 
 export default function MyTodo({item, deleteItem}) {
   const [todoItem, setTodoItem] = useState(item)
@@ -26,19 +29,38 @@ export default function MyTodo({item, deleteItem}) {
   const checkboxEventHandler = (e) => {
     const {done, ...rest} = todoItem;
     setTodoItem({done : e.target.checked, ...rest})
+    
+    const checkCircle = e.target.nextSibling.querySelectorAll('.todo-circle')
+    
+    if(e.target.checked) {
+      checkCircle[0].style.display = 'none'
+      checkCircle[1].style.display = 'inline-block'
+    } else {
+      checkCircle[1].style.display = 'none'
+      checkCircle[0].style.display = 'inline-block'
+    }
   }
+
   
   return (
     <div className='Todo'>
-        <input type='checkbox' id={`todo${todoItem.id}`} name={`todo${todoItem.id}`} value={`todo${todoItem.id}`} 
+        <input type='checkbox' className='todo-check' id={`todo${todoItem.id}`} name={`todo${todoItem.id}`} value={`todo${todoItem.id}`} 
         defaultChecked={todoItem.done}
         onChange={checkboxEventHandler}
+        hidden
         />
-        {/* <label htmlFor={`todo${item.id}`}>{item.title}</label> */}
-        <input type='text' value={todoItem.title} readOnly={readOnly} onClick={offReadOnlyMode}
+        <label htmlFor={`todo${item.id}`} className='todo-label'>
+          <FontAwesomeIcon icon={faCircle} size='2x' className='todo-circle'/>
+          <FontAwesomeIcon icon={faCircleCheck} style={{display : "none"}} size='2x' className='todo-circle'/>
+        </label>
+        <input type='text' className='todo-content' value={todoItem.title} readOnly={readOnly} onClick={offReadOnlyMode}
         onChange={editEventHandler} onKeyDown={enterKeyEventHandler}
         />
-        <button onClick={onDeleteButtonClick}>DELETE</button>
+        <button className='todo-delete' onClick={onDeleteButtonClick}>
+          <span>
+            <FontAwesomeIcon icon={faTrashCan} className='delete-icon' size='lg'/>
+          </span>
+        </button>
     </div>
   )
 }

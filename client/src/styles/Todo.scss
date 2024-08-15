@@ -1,0 +1,106 @@
+@import './reset';
+@import './utils';
+@import './variables';
+
+body {
+    background-image: $gradient;
+}
+
+#root {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+}
+
+
+.App {
+    position: absolute;
+    @include goCenter;
+    box-sizing: border-box;
+    min-height: 500px;
+    width: 500px;
+    background-color: #fff;
+    border : 1px solid #fff;
+    border-radius: 20px;
+}
+
+.TodoTitle {
+    padding : 20px 0;
+    text-align: center;
+    -webkit-text-fill-color: transparent;
+    @include fontStyle($titleFont, 40px, 900);
+    background: {
+        image : $gradient;
+        clip : text;
+    }
+}
+
+.AddTodo {
+    @include flexCenter;
+    margin-bottom: 20px;
+    gap : 0 5px;
+    .add-input {
+        border: none;
+        border-bottom: 2px dashed #ccc;
+        width: 80%;
+        padding : 10px 0;
+        background-color: transparent;
+        @include fontStyle($contentFont, 20px, 600);
+        &:focus {
+            border-bottom-color: $borderColor;
+            border-bottom-style: solid;
+        }
+    }
+    .add-button {
+        border : none;
+        background-color: $borderColor;
+        border-radius: 5px;
+        width: 50px;
+        @include fontStyle($titleFont, 18px, 500);
+        cursor: pointer;
+        &:hover {
+            background-color: $checkColor;
+            transition: .3s;
+        }
+    }
+}
+
+.MyTodoBx {
+    display: flex;
+    flex-direction: column;
+    gap: 10px 0;
+    .Todo {
+        @include flexCenter;
+        gap : 5px 0;
+        .todo-label {
+            display: flex;
+            align-items: center;
+            .todo-circle {
+                color : $checkColor;
+            }
+        }
+        .todo-content {
+            width: 80%;
+            border : none;
+            padding : 10px 5px;
+            @include fontStyle($contentFont, 20px, 600);
+            &:focus {
+                border-bottom: 1px solid $borderColor;
+            }
+        }
+        .todo-delete {
+            border : none;
+            background-color: transparent;
+            cursor: pointer;
+            .delete-icon {
+                color : $checkColor;
+            }
+            &:hover {
+                .delete-icon {
+                    color :red;
+                    transition: color .3s;
+                }
+            }
+        }
+    }
+}

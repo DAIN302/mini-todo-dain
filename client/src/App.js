@@ -2,6 +2,8 @@ import { useState } from 'react';
 import MyTodo from './components/MyTodo';
 import AddTodo from './components/AddTodo';
 
+import './styles/Todo.scss'
+
 function App() {
   const [todoItems, setTodoItems] = useState([
     {
@@ -44,8 +46,11 @@ function App() {
 
   return (
     <div className="App">
+      <h1 className='TodoTitle'>Todo List</h1>
       <AddTodo addItem={addItem}/>
-      { todoItems.map(item => <MyTodo key={item.id} item={item} deleteItem={deleteItem}/>)}
+      <div className='MyTodoBx'>
+        { todoItems.map(item => <MyTodo key={item.id} item={item} deleteItem={deleteItem}/>)}
+      </div>
     </div>
   );
 }

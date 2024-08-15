@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'establishRoomNo703OTF';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2112@1.0/establishRoomNo703OTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SSRONETHandwritten';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/SSRONETHandwritten.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+$titleFont : 'establishRoomNo703OTF';
+$contentFont : 'SSRONETHandwritten';
+
+
+$gradient: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+
+$borderColor : #CCC1ED;
+$checkColor : #a18ae4;

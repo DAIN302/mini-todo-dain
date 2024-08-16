@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
@@ -6,6 +7,22 @@ import { faCircle } from "@fortawesome/free-regular-svg-icons";
 export default function MyTodo({item, deleteItem}) {
   const [todoItem, setTodoItem] = useState(item)
   const [readOnly, setReadOnly] = useState(true)
+
+  // 마운트 시
+  useEffect(()=>{
+    // 마운트 시 체크 되었는지 안되었는지 확인
+    const todoCheck = document.querySelectorAll('.todo-check');
+    todoCheck.forEach(ele => {
+      const checkCircle = ele.nextSibling.querySelectorAll('.todo-circle');
+      if(ele.checked){
+        checkCircle[0].style.display = 'none'
+        checkCircle[1].style.display = 'inline-block'
+      } else {
+        checkCircle[1].style.display = 'none'
+        checkCircle[0].style.display = 'inline-block'
+      }
+    })
+  }, [])
 
   // 삭제 
   const onDeleteButtonClick = () => deleteItem(todoItem);

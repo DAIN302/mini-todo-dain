@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     console.log('첫 렌더링 완료');
     const getTodos = async () => {
-      let res = await axios.get('http://localhost:8080/api/todos');
+      let res = await axios.get(`${process.env.REACT_APP_DB_HOST}/api/todos`);
       setTodoItems(res.data)
     }
 
@@ -36,7 +36,7 @@ function App() {
     //   data : newItem
     // })
 
-    let res = await axios.post('http://localhost:8080/api/todo', newItem)
+    let res = await axios.post(`${process.env.REACT_APP_DB_HOST}/api/todo`, newItem)
     // 스프레드 연산자를 통해서 기존 todo 에 새로운 todo 추가
     setTodoItems([...todoItems, res.data]);
   };
@@ -44,7 +44,7 @@ function App() {
   // todo 삭제 함수
   const deleteItem = async (targetItem) => {
     // filter method 로 일치하지 않는 애들만 필터링! -> delete 누른 애들은 사라진당
-    await axios.delete(`http://localhost:8080/api/todo/${targetItem.id}`)
+    await axios.delete(`${process.env.REACT_APP_DB_HOST}/api/todo/${targetItem.id}`)
     const newTodoItems = todoItems.filter(e => e.id !== targetItem.id)
     setTodoItems(newTodoItems)
     // const newTodoItems = todoItems.filter(e => e.id !== targetItem.id)
@@ -60,14 +60,21 @@ function App() {
     // }
   }
 
-  // todo 수정 함수
+  // todo 수정 함수 -> API 이용해서 update 하려면
+  // (1) Server API를 이용해서 서버 데이터 업데이트 후,
+  // (2) 변경된 내용을 화면에 다시 출력하는 두 가지 작업 필요
+  const updateItem = async (targetItem) => {
+    console.log(targetItem);
+    await axios.patch(`${process.env.REACT_APP_DB_HOST}/api/todo/${targetItem.id}`, targetItem)
+  }
+
 
   return (
     <div className="App">
       <h1 className='TodoTitle'>Todo List</h1>
       <AddTodo addItem={addItem}/>
       <div className='MyTodoBx'>
-        { todoItems.map(item => <MyTodo key={item.id} item={item} deleteItem={deleteItem}/>)}
+        { todoItems.map(item => <MyTodo key={item.id} item={item} deleteItem={deleteItem} updateItem={updateItem} />)}
       </div>
     </div>
   );

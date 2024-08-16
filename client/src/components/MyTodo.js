@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
 
-export default function MyTodo({item, deleteItem}) {
+export default function MyTodo({item, deleteItem, updateItem}) {
   const [todoItem, setTodoItem] = useState(item)
   const [readOnly, setReadOnly] = useState(true)
 
@@ -32,7 +32,10 @@ export default function MyTodo({item, deleteItem}) {
 
   // readOnly : true -> enter key 누르면 readOnly true 로 변경
   const enterKeyEventHandler = (e) => {
-    if(e.key==='Enter') setReadOnly(true)
+    if(e.key==='Enter') {
+      setReadOnly(true);
+      updateItem(todoItem); // 수정 1 - 엔터 누르면 저장
+    }
   }
 
   // todo 수정 함수
@@ -44,8 +47,13 @@ export default function MyTodo({item, deleteItem}) {
 
   // checkbox 업데이트
   const checkboxEventHandler = (e) => {
+    // rest : id, title 정보
     const {done, ...rest} = todoItem;
-    setTodoItem({done : e.target.checked, ...rest})
+
+    const updatedItem = {done : e.target.checked, ...rest}
+
+    setTodoItem(updatedItem)
+    updateItem(updatedItem) // 수정2 - 체크박스 변경 시 저장
     
     const checkCircle = e.target.nextSibling.querySelectorAll('.todo-circle')
     

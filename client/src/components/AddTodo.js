@@ -16,7 +16,7 @@ export default function AddTodo({addItem}) {
 
   return (
     <div className='AddTodo'>
-        <input type='text' placeholder='Add Your new Todo!' className='add-input'
+        <input type='text' placeholder='Add Your new Todo!' className='add-input' autoFocus
         value={todoItem.title} 
         onChange={(e) => setTodoItem({title : e.target.value})} 
         onKeyUp={(e)=>{if(e.key==='Enter'){onButtonClick()}}} // MAC 에서 onKeyDown을 썼을 때 한글이 두번 쳐짐 그래서 onKeyUp으로 변경

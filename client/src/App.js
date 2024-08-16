@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import MyTodo from './components/MyTodo';
 import AddTodo from './components/AddTodo';
+import { API_BASE_URL } from './app-config';
 
 import './styles/Todo.scss'
 
@@ -13,7 +14,10 @@ function App() {
   useEffect(() => {
     console.log('첫 렌더링 완료');
     const getTodos = async () => {
-      let res = await axios.get(`${process.env.REACT_APP_DB_HOST}/api/todos`);
+      // [env 버전]
+      // let res = await axios.get(`${process.env.REACT_APP_DB_HOST}/api/todos`);
+      // [config.js 버전]
+      let res = await axios.get(`${API_BASE_URL}/api/todos`);
       setTodoItems(res.data)
     }
 
@@ -36,15 +40,24 @@ function App() {
     //   data : newItem
     // })
 
-    let res = await axios.post(`${process.env.REACT_APP_DB_HOST}/api/todo`, newItem)
-    // 스프레드 연산자를 통해서 기존 todo 에 새로운 todo 추가
-    setTodoItems([...todoItems, res.data]);
+    // let res = await axios.post(`${process.env.REACT_APP_DB_HOST}/api/todo`, newItem)
+    let res = await axios.post(`${API_BASE_URL}/api/todo`, newItem)
+
+    // 현재 API 호출 후 응답을 기다리지 않고 바로 상태 업데이트를 진행하면, 네트워크 지연 등으로 인해 예상치 못한 문제 발생 가능
+    // 따라서 비동기 작업 처리를 제대로 해주는 것이 좋음!
+    if(res.status === 200){
+      // 스프레드 연산자를 통해서 기존 todo 에 새로운 todo 추가
+      setTodoItems([...todoItems, res.data]);
+    } else {
+      console.error('failed to add item');
+    }
   };
 
   // todo 삭제 함수
   const deleteItem = async (targetItem) => {
     // filter method 로 일치하지 않는 애들만 필터링! -> delete 누른 애들은 사라진당
-    await axios.delete(`${process.env.REACT_APP_DB_HOST}/api/todo/${targetItem.id}`)
+    // await axios.delete(`${process.env.REACT_APP_DB_HOST}/api/todo/${targetItem.id}`)
+    await axios.delete(`${API_BASE_URL}/api/todo/${targetItem.id}`)
     const newTodoItems = todoItems.filter(e => e.id !== targetItem.id)
     setTodoItems(newTodoItems)
     // const newTodoItems = todoItems.filter(e => e.id !== targetItem.id)
@@ -69,12 +82,19 @@ function App() {
   }
 
 
+  // const memoizedComponents = useMemo(()=>{
+  //   { todoItems.map(item => <MyTodo key={item.id} item={item} deleteItem={deleteItem} updateItem={updateItem} />)}
+  // }, [todoItems, deleteItem, updateItem])
+
   return (
     <div className="App">
       <h1 className='TodoTitle'>Todo List</h1>
       <AddTodo addItem={addItem}/>
+      {/* <div className='left-todos'>{todoItems.length} Todos</div> */}
       <div className='MyTodoBx'>
-        { todoItems.map(item => <MyTodo key={item.id} item={item} deleteItem={deleteItem} updateItem={updateItem} />)}
+        { todoItems.length > 0 ? todoItems.map(item => <MyTodo key={item.id} item={item} deleteItem={deleteItem} updateItem={updateItem} />) 
+        : <p>Todo를 추가해주세요</p> }
+        {/* {memoizedComponents} */}
       </div>
     </div>
   );

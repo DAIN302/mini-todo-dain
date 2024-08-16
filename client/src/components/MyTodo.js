@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
@@ -24,10 +24,10 @@ export default function MyTodo({item, deleteItem, updateItem}) {
   }, [])
 
   // 삭제 
-  const onDeleteButtonClick = () => deleteItem(todoItem);
+  const onDeleteButtonClick = useCallback(() => deleteItem(todoItem), [deleteItem]);
 
   // title 클릭 시 실행될 함수
-  const offReadOnlyMode = () => setReadOnly(false);
+  const offReadOnlyMode = useCallback(() => setReadOnly(false), []);
 
   // readOnly : true -> enter key 누르면 readOnly true 로 변경
   const enterKeyEventHandler = (e) => {
